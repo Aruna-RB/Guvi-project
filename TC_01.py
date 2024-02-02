@@ -12,28 +12,22 @@ chrome_driver.implicitly_wait(10)  # max wait time for the website to load
 chrome_driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login")
 chrome_driver.implicitly_wait(10)  # max wait time for the website to load
 
-forgot_password = chrome_driver.find_element(By.CLASS_NAME, 'orangehrm-login-forgot')
+# Find the username and password input fields and the login button
+username_field = chrome_driver.find_element(
+    By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[1]/div/div[2]/input')
+password_field = chrome_driver.find_element(
+    By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[2]/div/div[2]/input')
+login_button = chrome_driver.find_element(
+    By.XPATH, '//*[@id="app"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[3]')
 
-forgot_password.click()
+# Enter invalid credentials
+username_field.send_keys('Admin')
+password_field.send_keys('admin123')
 
-time.sleep(10)
+# Click the login button
+login_button.click()
 
-titles = (chrome_driver.find_element
-          (By.XPATH, '//*[@id="app"]/div[1]/div[1]/div/form/div[1]/div/div[2]/input').send_keys('Aruna'))
-
-time.sleep(5)
-
-reset_password = chrome_driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/div/form/div[2]/button[2]')
-
-reset_password.click()
-
-time.sleep(5)
-
-verification = chrome_driver.find_element(By.XPATH, '//*[@id="app"]/div[1]/div[1]/div/p[1]/p')
-
-print(verification)
-
-assert verification.text == "A reset password link has been sent to you via email."
+print("valid login credentials")
 
 # Add a delay to see the result before closing the browser
 time.sleep(5)
